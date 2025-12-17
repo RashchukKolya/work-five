@@ -1,12 +1,19 @@
 import { fetchBreeds, fetchCatByBreed } from "./cat-api";
-// import SlimSelect from 'slim-select'
-// import 'slim-select/styles' // optional css import method
-// import 'slim-select/scss' // optional scss import method
+import { Notify } from "notiflix";
 
 const select = document.querySelector('.breed-select');
 const loader = document.querySelector('.loader');
-const error = document.querySelector('.error');
+// const error = document.querySelector('.error');
 const catInfo = document.querySelector('.cat-info');
+
+const options = {
+  position: 'center-center',
+  distance: '15px',
+  borderRadius: '15px',
+  timeout: 3000,
+  clickToClose: true,
+  cssAnimationStyle: 'zoom',
+};
 
 fetchBreeds().then(res => {
   let optionsList = res.data.reduce((acc, el) => {
@@ -22,21 +29,29 @@ fetchBreeds().then(res => {
   select.hidden = false;
 })
   .catch((err) => {
-    error.hidden = false;
+    // error.hidden = false;
     console.error(err);
+    Notify.failure(
+      'Oops! Something went wrong! Try reloading the page!',
+      options
+    );
   })
   .finally(() => {
   loader.classList.add('hidden');
 });
 
 select.addEventListener('change', (e) => {
-  error.hidden = true;
+  // error.hidden = true;
   loader.classList.remove('hidden');
   catInfo.classList.add('hidden');
   let selectedBreed = e.target.value;
   fetchCatByBreed(selectedBreed).then(res => breedMarkup(res.data[0]))
     .catch((err) => {
-      error.hidden = false;
+      Notify.failure(
+      'Oops! Something went wrong! Try reloading the page!',
+      options
+    );
+      // error.hidden = false;
       console.error(err);
     })
     .finally(() => {
