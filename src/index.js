@@ -1,4 +1,7 @@
 import { fetchBreeds, fetchCatByBreed } from "./cat-api";
+// import SlimSelect from 'slim-select'
+// import 'slim-select/styles' // optional css import method
+// import 'slim-select/scss' // optional scss import method
 
 const select = document.querySelector('.breed-select');
 const loader = document.querySelector('.loader');
@@ -9,6 +12,13 @@ fetchBreeds().then(res => {
   let optionsList = res.data.reduce((acc, el) => {
     return acc += `<option value="${el.id}">${el.name}</option>`}, '');
   select.insertAdjacentHTML('beforeend', optionsList);
+  new SlimSelect({
+    select: '.breed-select',
+    settings: {
+      showSearch: false,
+      hideSelected: true,
+    }
+  })
   select.hidden = false;
 })
   .catch((err) => {
@@ -16,12 +26,12 @@ fetchBreeds().then(res => {
     console.error(err);
   })
   .finally(() => {
-  loader.hidden = true;
+  loader.classList.add('hidden');
 });
 
 select.addEventListener('change', (e) => {
   error.hidden = true;
-  loader.hidden = false;
+  loader.classList.remove('hidden');
   catInfo.classList.add('hidden');
   let selectedBreed = e.target.value;
   fetchCatByBreed(selectedBreed).then(res => breedMarkup(res.data[0]))
@@ -30,7 +40,7 @@ select.addEventListener('change', (e) => {
       console.error(err);
     })
     .finally(() => {
-    loader.hidden = true;
+    loader.classList.add('hidden');
   })
 })
 
