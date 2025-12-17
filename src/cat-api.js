@@ -13,7 +13,7 @@ function fetchBreeds() {
 }
 
 function fetchCatByBreed(breedId) {
-  return axios.get(`https://api.thecatapi.com/v1/images/search?breed_ids=${breedId}1`)
+  return axios.get(`https://api.thecatapi.com/v1/images/search?breed_ids=${breedId}`)
     .then((res) => {
       return res;
     })
