@@ -1,0 +1,20 @@
+.cat-info {
+  display: flex;
+  margin: 30px;
+}
+
+.cat-info.hidden {
+  display: none;
+}
+
+.cat-info span {
+  font-weight: bold;
+}
+
+.cat-info p:last-child {
+  margin-top: 10px;
+}
+
+.cat-img {
+  margin-right: 20px;
+}
